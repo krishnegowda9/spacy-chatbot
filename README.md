@@ -83,4 +83,10 @@ Launch Frontend Interface
 python -m http.server 8080
 
 
+##  Acknowledgments & Assessment Details
 
+This project was developed as a college training assessment assigned and evaluated by our instructors:
+
+- **Damodar Sir**
+- **Akshay Sir**
+- **Deeraj Sir**
