@@ -14,46 +14,27 @@ A lightweight, end-to-end web application that leverages **spaCy Natural Languag
 
 ## 🏗️ System Architecture & Workflow
 ---
-+-----------------------------------------------------------------------------------+
-|                                 USER INTERFACE                                    |
-|                                                                                   |
-|  +-----------------------------------------------------------------------------+  |
-|  |                   GitHub Pages (Static Hosting Layer)                        |  |
-|  |   Responsive Web UI: HTML5 | CSS3 | JavaScript (Async Fetch API)           |  |
-|  +-----------------------------------------------------------------------------+  |
-+------------------------------------------|----------------------------------------+
-                                           |
-                                           |  HTTPS POST /chat (JSON Payload)
-                                           v
-+-----------------------------------------------------------------------------------+
-|                                   BACKEND API                                     |
-|                                                                                   |
-|  +-----------------------------------------------------------------------------+  |
-|  |                 Render Platform (Cloud Application Host)                     |  |
-|  |                                                                             |  |
-|  |  +-----------------------------------------------------------------------+  |  |
-|  |  |                 Docker Container Environment                          |  |  |
-|  |  |                                                                       |  |  |
-|  |  |   +----------------------------------------------------------------+  |  |  |
-|  |  |   |             FastAPI Framework + Uvicorn Server                 |  |  |  |
-|  |  |   |   - Route Handler: /chat endpoint                              |  |  |  |
-|  |  |   |   - Schema Validation: Pydantic models                         |  |  |  |
-|  |  |   |   - CORS Middleware & Static File Handler                      |  |  |  |
-|  |  |   +-------------------------------+--------------------------------+  |  |  |
-|  |  |                                   |                                   |  |  |
-|  |  |                                   v                                   |  |  |
-|  |  |   +----------------------------------------------------------------+  |  |  |
-|  |  |   |                   spaCy NLP Processing Engine                  |  |  |  |
-|  |  |   |                 (Model Pipeline: en_core_web_sm)               |  |  |  |
-|  |  |   |                                                                |  |  |  |
-|  |  |   |   1. Tokenization & Lemmatization                              |  |  |  |
-|  |  |   |   2. Part-of-Speech (POS) Tagging                              |  |  |  |
-|  |  |   |   3. Pattern & Keyword Intent Matcher                          |  |  |  |
-|  |  |   |   4. Dynamic Response Selector                             |  |  |  |
-|  |  |   +----------------------------------------------------------------+  |  |  |
-|  |  +-----------------------------------------------------------------------+  |  |
-|  +-----------------------------------------------------------------------------+  |
-+-----------------------------------------------------------------------------------+
+```mermaid
+graph TD
+    %% Styling
+    classDef client fill:#1f2937,stroke:#3b82f6,stroke-width:2px,color:#fff;
+    classDef api fill:#111827,stroke:#10b981,stroke-width:2px,color:#fff;
+    classDef nlp fill:#0f172a,stroke:#8b5cf6,stroke-width:2px,color:#fff;
+
+    subgraph UI ["🌐 Frontend Layer"]
+        A["GitHub Pages Static Hosting<br/><i>(HTML5 / CSS3 / JavaScript Fetch API)</i>"]:::client
+    end
+
+    subgraph Backend ["⚡ Backend Service Layer (Render)"]
+        subgraph Docker ["🐳 Docker Container"]
+            B["FastAPI Server + Uvicorn<br/><i>- Endpoint: /chat<br/>- Pydantic Schema Validation</i>"]:::api
+            C["spaCy NLP Engine<br/><i>(Model: en_core_web_sm)</i><br/>- Tokenization & Lemmatization<br/>- POS Tagging & Intent Matching"]:::nlp
+        end
+    end
+
+    A -->|"HTTPS POST /chat (JSON Payload)"| B
+    B -->|"Processes Text Input"| C
+```
 
 ## 🔄 End-to-End Processing Flow
 
