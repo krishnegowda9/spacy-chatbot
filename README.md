@@ -17,15 +17,33 @@ A lightweight, end-to-end web application that leverages **spaCy Natural Languag
 
 ## 🔄 End-to-End Processing Flow
 
-1. **User Input:** A user enters a query (e.g., *"Who is damodar sir"*) into the web client hosted on GitHub Pages.
-2. **API Request:** The client triggers an asynchronous `fetch()` POST request carrying the user message in JSON format to the FastAPI endpoint on Render.
-3. **NLP Processing:** 
-   - FastAPI receives the payload and passes the raw text into the **spaCy NLP model** (`en_core_web_sm`).
-   - Text is normalized (converted to lowercase, cleaned, and tokenized).
-   - The engine checks tokens against predefined intent patterns.
-4. **Response Generation:** The matched response string is wrapped inside a JSON dictionary and returned across the HTTP channel.
-5. **UI Rendering:** The frontend JavaScript parses the JSON response and updates the chat interface dynamically.
+## 💬 Supported Inputs & Intent Rules
 
+The chatbot processes user messages using tokenization, lemmatization, and phrase matching against configured intent patterns:
+
+### **1. Intent Mapping Table**
+
+| Intent Name | Example Input Queries | Bot Response |
+| :--- | :--- | :--- |
+| **Greeting** | `hi`, `hello`, `hey`, `greetings` | *"Hello!"*, *"Hi there!"*, *"Hey! How can I help you?"* |
+| **Damodar Sir Info** | `damodar sir`, `who is damodar sir`, `who is damodar` | *"He is a great teacher."* |
+| **Kannada Query** | `uta aytha`, `uta`, `oota aytha` | *"Hu aythu Nimdu"* |
+| **Goodbye** | `bye`, `goodbye`, `see you later`, `exit` | *"Goodbye!"*, *"See you later!"*, *"Bye! Take care."* |
+| **Thanks** | `thank you`, `thanks`, `appreciate` | *"You're welcome!"*, *"No problem!"*, *"Glad I could help!"* |
+| **Fallback** | *Any unrecognized input* | *"I'm not sure I understand. Can you rephrase that?"* |
+
+---
+
+## 🔄 End-to-End Processing Workflow
+
+1. **User Input:** A user types a message (e.g., *"who is damodar sir"*) into the web frontend hosted on **GitHub Pages**.
+2. **API Request:** The frontend executes an asynchronous HTTP POST `fetch()` request sending JSON data `{"message": "who is damodar sir"}` to `https://spacy-chatbot-app-latest.onrender.com/chat`.
+3. **NLP Processing Pipeline:**
+   - **FastAPI** parses the JSON body into a `ChatRequest` model.
+   - **spaCy Engine (`en_core_web_sm`)** processes text to generate `tokens`, `lemmas`, `POS tags`, and `entities`.
+   - **Intent Matcher** checks clean message strings and lemmatized tokens against predefined keywords.
+4. **Response Generation:** Matches the `damodar_info` intent and selects `"He is a great teacher."`
+5. **UI Rendering:** Returns JSON payload with the response, which the frontend displays in the chat window.
 ---
 
 ## 🛠️ Tech Stack & Key Components
@@ -43,36 +61,26 @@ A lightweight, end-to-end web application that leverages **spaCy Natural Languag
 
 ## 🚀 Local Development Setup
 
-### 1. Clone Repository
-```bash
+Follow these step-by-step commands to set up, run, and test the project locally on your machine:
+
+### 1. Clone the Repository
+```powershell
 git clone [https://github.com/krishnegowda9/spacy-chatbot.git](https://github.com/krishnegowda9/spacy-chatbot.git)
 cd spacy-chatbot
-2. Set Up Virtual Environment
-PowerShell
+Set Up Virtual Environment
+
 python -m venv venv
 .\venv\Scripts\Activate
-3. Install Dependencies & spaCy Model
-PowerShell
+
+Install Dependencies & spaCy NLP Model
 pip install -r requirements.txt
 python -m spacy download en_core_web_sm
-4. Run API Backend
-PowerShell
+
+Run Backend Server (FastAPI + Uvicorn)
 uvicorn main:app --reload
-The local API server will launch at http://127.0.0.1:8000.
 
-5. Launch Frontend
-Open index.html directly in your browser or run a simple local web server.
+Launch Frontend Interface
+python -m http.server 8080
 
-🐳 Docker Deployment Commands
-To containerize and test locally using Docker:
 
-PowerShell
-# Build Docker Image
-docker build -t krishnegowda2005/spacy-chatbot-app:latest .
-
-# Run Container Locally
-docker run -p 8000:8000 krishnegowda2005/spacy-chatbot-app:latest
-
-# Push Image to Docker Hub
-docker push krishnegowda2005/spacy-chatbot-app:latest
 
