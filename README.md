@@ -103,6 +103,8 @@ uvicorn main:app --reload
 Launch Frontend Interface
 python -m http.server 8080
 
+> ⚡ **Performance Note:** The API backend is hosted on Render's free tier. Initial requests may experience a short delay (3–5 seconds) while the server performs a cold start. Subsequent responses will be instant.
+
 
 ##  Acknowledgments & Assessment Details
 
