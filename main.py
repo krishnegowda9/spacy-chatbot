@@ -21,7 +21,7 @@ intents = {
         "keywords": ["hi", "hello", "hey", "greetings"],
         "responses": ["Hello!", "Hi there!", "Hey! How can I help you?"],
     },
-    "damodar_info": {
+    "damodar_Akshay_Deeraj_info": {
         "keywords": [
             "damodar",
             "dhamodhar",
@@ -30,8 +30,15 @@ intents = {
             "who is damodar sir",
             "who is dhamodhar sir",
             "who is damodar",
+            "who is Akshay ",
+            "Akshay",
+            "Dheeraj",
+            "who is Akshay sir",
+            "who is Deeraj",
+            "who is Deeraj sir",
         ],
-        "responses": ["He is a great teacher."],
+        "responses": ["He is a great Trainer!, He is a great person!","one of the best trainer in the field!"],
+
     },
     "uta_query": {
         "keywords": ["uta aytha", "uta ayta", "uta", "oota aytha"],
